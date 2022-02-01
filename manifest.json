@@ -1,0 +1,23 @@
+{
+    "manifest_version" : 3,
+    "name" : "Guvi IDE",
+    "version" : "1.0",
+    "description" : "Run your code from anywhere on the webpage !!!",
+    "icons" : {
+        "128" : "icon/icon128.png",
+        "48" : "icon/icon48.png",
+        "16" : "icon/icon16.png"
+    },
+    "action" : {
+        "default_icon" : "icon/icon16.png",
+        "default_popup" : "html/popup.html"
+    },
+    "background" : {
+        "service_worker": "js/eventPage.js"
+    },
+    "permissions" : [
+        "storage",
+        "notifications",
+        "contextMenus"
+    ]
+}
