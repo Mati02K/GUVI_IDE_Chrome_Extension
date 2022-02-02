@@ -1,4 +1,12 @@
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    for(let i = 0; i < message.length; i++){
+        console.log(message[i].innerHTML);
+    }
+console.log(message);  // This is the code
+});
+
+
 // Setting the properties of the Context Menu Item
 let contextMenuItem = {
     id : 'guviIDE',
@@ -6,7 +14,7 @@ let contextMenuItem = {
     contexts : ['selection']
 };
 
-chrome.contextMenus.create(contextMenuItem);
+chrome.contextMenus.create(contextMenuItem, () => chrome.runtime.lastError);  // supressing if already installed error
 
 chrome.contextMenus.onClicked.addListener(function(option) {
     if (option.menuItemId == 'guviIDE' && option.selectionText) {

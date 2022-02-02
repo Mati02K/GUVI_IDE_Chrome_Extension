@@ -2,9 +2,29 @@
 <html lang="en">
 <head>
     <title>Guvi IDE</title>
-    <script src="js/popup.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="../js/popup.js"></script>
 </head>
 <body>
-    <h2 id="greet"> Hi there !!!</h2>
+    <div class="content">
+
+        <h2> GUVI IDE</h2>
+
+          <select id="lang" name="lang">
+            <option>Select the Programming Language</option>
+            <option value="c">C</option>
+            <option value="c++">C++</option>
+            <option value="java">Java</option>
+            <option value="js">JavaScript</option>
+            <option value="python">Python</option>
+          </select>
+
+          <textarea id="code" placeholder="Enter the code here..."></textarea>
+        
+          <input type="submit" id="submit" value="Submit">
+      </div>
+      
+    
 </body>
 </html>
