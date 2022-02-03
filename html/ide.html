@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUVI IDE</title>
+    <link rel="stylesheet" href="../css/ide.css">
+</head>
+<body>
+
+    <!-- Editor -->
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 codeSide">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+            <div class="compile-code">
+                <!-- Language Selection -->
+                <select class="selectpicker" data-live-search="true" class="form-control" name="Language" id="mode" onchange="changeMode()">
+                <option value="c" id="c" selected>C</option>
+                <option value="c++" id="c++">C++</option>
+                <option value="python2" id="python2">Python2</option>
+                <option value="python3" id="python3">Python3</option>
+                <option value="java" id="java">Java</option>
+                </select>
+                <!-- Editor -->
+                <div name="code" id="editor"></div>
+                <button type="submit" id="compile" class="btn btn-sky"> Run Code </button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    </div>
+    
+    <textarea id="output" placeholder="Your Output will appear here.."></textarea>
+    <!-- /.container -->
+
+    <script src="../js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="https://ajaxorg.github.io/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/ide.js"></script>
+</body>
+</html>

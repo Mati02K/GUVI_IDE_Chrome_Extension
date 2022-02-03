@@ -12,6 +12,9 @@
         "default_icon" : "icons/icon16.png",
         "default_popup" : "html/popup.html"
     },
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline' https://ajaxorg.github.io/;"
+    },
     "background" : {
         "service_worker": "js/eventPage.js"
     },
