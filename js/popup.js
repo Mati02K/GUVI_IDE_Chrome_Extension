@@ -27,6 +27,7 @@ $(document).on('click', '#submit', () => {
     const guessLang = new GuessLang();
     guessLang.runModel(code).then((result) => {
       console.log(result);
+      console.log(result[0].languageId);
     });
     const sendDetails = {
         compilerId: cid,

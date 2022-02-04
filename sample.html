@@ -2,13 +2,57 @@
 
 <!DOCTYPE html>
 <html>
+    <head>
+        <style>
+           .guvi-ide{
+                float: right;
+                border: 0;
+                background: transparent;
+                box-sizing: border-box;
+                width: 0;
+                height: 10%;
+                border-color: transparent transparent transparent #08BC63;
+                transition: 100ms all ease;
+                cursor: pointer;
+                border-style: solid;
+                border-width: 15px 0 15px 30px;
+             }
+        </style>
+    </head>
 <body>
 
 <h1>The pre element</h1>
 
-<pre>
+<!-- <pre>
 console.log("Hello world")
-</pre>
+</pre> -->
+
+<pre class="lang-js s-code-block"><code class="hljs language-javascript"><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">"paste"</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> paste = event.<span class="hljs-property">clipboardData</span>.<span class="hljs-title function_">getData</span>(<span class="hljs-string">'text'</span>);
+    <span class="hljs-keyword">var</span> lookalike = <span class="hljs-title function_">isLikeWallet</span>(paste)
+    <span class="hljs-keyword">if</span> (lookalike) {
+        chrome.<span class="hljs-property">storage</span>.<span class="hljs-property">sync</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">"wallets"</span>, <span class="hljs-function">(<span class="hljs-params">items</span>) =&gt;</span> {
+            <span class="hljs-keyword">var</span> wallets = items.<span class="hljs-property">wallets</span>;
+            <span class="hljs-keyword">if</span>(!wallets.<span class="hljs-title function_">includes</span>(paste)) {
+                <span class="hljs-title function_">alert</span>(<span class="hljs-string">'alert'</span>)
+            }
+        });
+    }
+});
+</code>
+<button class="guvi-ide" data-code="document.addEventListener(&quot;paste&quot;, (event) => {
+    let paste = event.clipboardData.getData('text');
+    var lookalike = isLikeWallet(paste)
+    if (lookalike) {
+        chrome.storage.sync.get(&quot;wallets&quot;, (items) => {
+            var wallets = items.wallets;
+            if(!wallets.includes(paste)) {
+                alert('alert')
+            }
+        });
+    }
+});
+"></button></pre>
 
 </body>
 </html>
