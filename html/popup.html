@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Guvi IDE</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUVI IDE</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/vendor/jquery-3.6.0.min.js"></script>
-    <script src="../js/vendor/guesslang.min.js"></script>
+    <!-- <script src="../js/vendor/guesslang.min.js"></script> -->
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/guesslang-js/dist/lib/guesslang.min.js"></script> -->
     <script src="../js/popup.js"></script>
 </head>
 <body>
-    <div class="content">
 
-        <h2> GUVI IDE</h2>
+  <img src="../icons/logo.png" alt="Guvi">
+  <div id="btn-bg" class="active" >
+    <div id="btn-highlight"></div>
+    <div id="btn-ring">
+      <div id="ring-line"></div>
+    </div>
+  </div>
+  
+  <div id="power-text">Extension is <strong>ON</strong></div>
 
-          <select id="lang" name="lang">
-            <option>Select the Programming Language</option>
-            <option value="c">C</option>
-            <option value="c++">C++</option>
-            <option value="java">Java</option>
-            <option value="js">JavaScript</option>
-            <option value="python">Python</option>
-          </select>
-
-          <textarea id="code" placeholder="Enter the code here..."></textarea>
+  <button class="open expand" id="openide"> Open IDE </button>
         
-          <input type="submit" id="submit" value="Submit">
-      </div>
-      
     
 </body>
 </html>

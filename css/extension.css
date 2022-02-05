@@ -1,10 +1,12 @@
 .guvi-ide{
     float: right;
+    margin-right: 20px;
+    margin-bottom: 20px;
     border: 0;
     background: transparent;
     box-sizing: border-box;
     width: 0;
-    height: 10%;
+    height: 20px;
     border-color: transparent transparent transparent #08BC63;
     transition: 100ms all ease;
     cursor: pointer;

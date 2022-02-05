@@ -7,19 +7,19 @@
     border: none;
     min-height: 100px;
     max-height: 400px;
-    overflow-x: scroll;
-    overflow-y: scroll;
 }
 
 /*Compile Button CSS*/
 
 .btn{
-    padding: 5px;
+    padding: 10px;
     font-size: 20px;
-    border-radius: 20;
+    border-radius: 25px;
     margin: 5px;
     margin-top: 5px;
     float: right;
+    cursor: pointer;
+    border: none;
 }
 
 .btn-sky {
@@ -43,7 +43,7 @@
 .btn-sky.active:focus{
 	color: #fff;
 	background-color: #df6a78;
-	border-bottom:2px solid #b25560;
+    border: none;
 	outline: none;
 }
 
@@ -56,14 +56,6 @@
 
 /*Compile Button CSS End*/
 
-/* .col-md-12.col-sm-12.codeSide {
-    background: #272822;
-    height: 40em;
-    padding-left: 21px;
-    border-radius: 10px;
-    padding-top: 7px;
-} */
-
 .ace_gutter {
     min-width: 50px;
 }
@@ -72,11 +64,6 @@
 	margin-left: 5px;
 }
 
-/*Language Select CSS */
-button.btn.dropdown-toggle.btn-default {
-    width: 50%;
-    margin: 4px 2px 6px 4px;
-}
 
 /* Output Box */
 textarea {
@@ -85,4 +72,30 @@ textarea {
     min-height: 100px;
     overflow-x: scroll;
     overflow-y: scroll;
+}
+
+/*Language Select CSS */
+button.btn.dropdown-toggle.btn-default {
+    width: 50%;
+    margin: 4px 2px 6px 4px;
+}
+
+.selectpicker {
+    float: right;
+    margin-bottom: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 12em;
+    height: 5em;
+    border-radius: .25em;
+    overflow: hidden;
+}
+.selectpicker option {
+    background: #272822;
+    color: #fff;
+}
+
+img {
+    float: left;
+    width: 8em;
+    height: 5em;
 }

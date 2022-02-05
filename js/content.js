@@ -1,126 +1,109 @@
-// chrome.runtime.sendMessage({todo : 'getCode'});
+// Check Extension On Status
 
+chrome.storage.sync.get('extensionStatus', function(status) {
+    let extensionStatus = status.extensionStatus;
+    console.log(extensionStatus);
+    if(extensionStatus) {
 
-// let btn, t;
-// let x = document.querySelectorAll("pre");
-// for (let i = 0; i < x.length; i++) {
-//   btn = document.createElement("button");
-//   t = document.createTextNode("Run");
-//   btn.appendChild(t);
-//   x[i].appendChild(btn);
-// }
-$(document).ready(function(){
-    $('.guvi-ide').click(function() {
-        const code = $(this).data( "code" );
-        //  Set the code in the chrome storage API
-        chrome.storage.sync.set(
-            {code : code}
-            )
-        // localStorage.setItem('guviCode', $(this).data( "code" ));
-        // console.log(localStorage.getItem('guviCode'));
-        const ideData = {
-            code : code,
-            height : parseInt(screen.availHeight / 2, 10) + 200,
-            width : parseInt(screen.availWidth / 2 , 10) + 100,
+        $(document).ready(function(){
+            $('.guvi-ide').click(function() {
+                const code = $(this).data( "code" );
+                //  Set the code in the chrome storage API
+                chrome.storage.sync.set(
+                    {code : code}
+                    )
+                // localStorage.setItem('guviCode', $(this).data( "code" ));
+                // console.log(localStorage.getItem('guviCode'));
+                const ideData = {
+                    code : code,
+                    height : parseInt(screen.availHeight / 2, 10) + 200,
+                    width : parseInt(screen.availWidth / 2 , 10) + 100,
+                }
+                chrome.runtime.sendMessage(ideData, (response) => {
+                    console.log(screen.availWidth);
+                    console.log('Running Your Code', response);
+                  });
+              });
+        });
+        
+        // Black List the IDE Where the Editor has no use
+        const blackList = new Set(['https://www.w3schools.com', 'https://codepen.io', 'http://jsfiddle.net']);
+        
+        const URL = location.protocol + '//' + location.host; 
+        console.log(URL);
+        
+        const specialWebsites = new Set(['https://www.geeksforgeeks.org', 'https://www.javatpoint.com', 'https://github.com'])
+        
+        if ( specialWebsites.has(URL) && URL === 'https://www.geeksforgeeks.org') {
+            const pre = document.getElementsByClassName('code');
+            const holder = document.getElementsByClassName('syntaxhighlighter');
+            console.log(holder);
+            console.log(pre[0].childNodes[0].childNodes[0].textContent);
+            for (let i = 0; i < pre.length; i++) {
+                const lineTags = pre[i].childNodes[0].childNodes;
+                const button = document.createElement('button');
+                button.classList.add('guvi-ide');
+                let parsedCode = '';
+                for (let j = 0; j < lineTags.length; j++) {
+                    parsedCode += lineTags[j].textContent;
+                    parsedCode = parsedCode.replace(/\u00a0/g, ' ');
+                    parsedCode += '\n';            
+                }             
+                button.dataset.code = parsedCode;
+                console.log(parsedCode);
+                // pre[i].childNodes[0].appendChild(button);
+                holder[i].appendChild(button);
+            }
         }
-        chrome.runtime.sendMessage(ideData, (response) => {
-            console.log(screen.availWidth);
-            console.log('Running Your Code', response);
-          });
-      });
-});
-
-// $('<div id = "newElement" style="display:none"></div>').prependTo($('body'));   
-// $("#newElement").append('<iframe id="receiver" src="" width="500" height="200"></iframe>');
-
-const blackList = new Set(["https://www.w3schools.com"]);
-
-const URL = location.protocol + '//' + location.host; 
-console.log(URL);
-
-const specialWebsites = new Set(["https://www.geeksforgeeks.org"])
-
-if ( specialWebsites.has(URL) ) {
-    const pre = document.getElementsByClassName("code");
-    console.log(pre);
-    console.log(pre[0].childNodes[0].childNodes[0].textContent);
-    for (let i = 0; i < pre.length; i++) {
-        const lineTags = pre[i].childNodes[0].childNodes;
-        const button = document.createElement("button");
-        button.classList.add("guvi-ide")
-        let parsedCode = '';
-        for (let j = 0; j < lineTags.length; j++) {
-           // code = code.replace(/\u00a0/g, '\n'); // Replace &nbsp
-            parsedCode += lineTags[j].textContent;
-            parsedCode = parsedCode.replace(/\u00a0/g, ' ');
-            parsedCode += '\n';            
-        }             
-        button.dataset.code = parsedCode;
-        console.log(parsedCode);
-        pre[i].appendChild(button);
-    }
-}
-else if ( !blackList.has(URL) ) {
-    const pre = document.getElementsByTagName("pre");
-    for (let i = 0; i < pre.length; i++) {
-        const code = pre[i].textContent;
-        if (code.trim().length > 25) {
-            const button = document.createElement("button");
-            // button.innerHTML = "Run";
-            button.classList.add("guvi-ide")
+        else if ( specialWebsites.has(URL) && URL === 'https://www.javatpoint.com') {
+            const pre = document.getElementsByClassName("codeblock");
+            console.log(pre[0].childNodes[1].defaultValue);
+            for (let i = 0; i < pre.length; i++) {
+                let code = pre[i].childNodes[1].defaultValue;
+                code = code.replace(/\u00a0/g, ' ');
+                const button = document.createElement("button");
+                button.classList.add("guvi-ide")
+                button.style.float = 'none';
+                button.style.marginLeft = '90%';
+                button.style.marginBottom = '15px';
+                button.dataset.code = code;
+                pre[i].appendChild(button);
+            }
+        }
+        else if ( specialWebsites.has(URL) && URL === 'https://github.com') {
+            const parentElement = document.getElementsByClassName('js-blob-code-container');
+            const pre = document.getElementsByTagName('tr');
+            console.log(pre);
+            let code = '';
+            for (let i = 0; i < pre.length; i++) {
+                let parsedCode = pre[i].textContent;
+                parsedCode = parsedCode.replace(/\u00a0/g, ' ');
+                parsedCode = parsedCode.replace(/\n/g, '');
+                parsedCode = parsedCode.trim();
+                // parsedCode = parsedCode.replace(/ /g, '');
+                code = code + parsedCode;
+                code += '\n';
+            }
+            const button = document.createElement('button');
+            button.classList.add('guvi-ide')
             button.dataset.code = code;
-            pre[i].appendChild(button);
+            console.log(parentElement);
+            parentElement[0].appendChild(button);
+            console.log(code);
         }
-        // const ideData = {
-        //     code : code,
-        //     height : parseInt(screen.availHeight / 2, 10) + 200,
-        //     width : parseInt(screen.availWidth / 2 , 10) + 100,
-        // }
-        // button.addEventListener ("click", function() {
-        //     //  Set the code in the chrome storage API
-        //     chrome.storage.sync.set(
-        //         {code : code}
-        //         )
-        //     //localStorage.setItem('guviCode', code); // Until we find a solution
-        //     //  Then send it to the background file
-        //     chrome.runtime.sendMessage(ideData, (response) => {
-        //         console.log(screen.availWidth);
-        //         console.log('Running Your Code', response);
-        //       });
-        //   }); 
-    }
-}
-
-// const codeTag = document.getElementsByTagName("code");
-
-// for (let i = 0; i < codeTag.length; i++) {
-//     const button = document.createElement("button");
-//     button.innerHTML = "Run";
-//     codeTag[i].appendChild(button);
-// }
-
-// $(document).ready(function(){
-
-//     // let code = document.getElementsByTagName('pre')[0].innerHTML; // --> For Particular One Code
-    
-//     // let code = document.getElementsByTagName('pre');
-
-//     // 1. Create the button
-//     // const button = document.createElement("button");
-//     // button.innerHTML = "Run";
-
-//     // const pre = document.getElementsByTagName("pre");
-  
-//     // for (let i = 0; i < pre.length; i++) {
-//     //     pre[i].appendChild(button);
-//     // }
-
-//     let code = $('pre').html();
-
-//     // let code = document.getElementsByTagName('code')[0].innerHTML;
-
-//     // chrome.runtime.sendMessage(code, (response) => {
-//     //     console.log('Sending user data', response);
-//     //   });
-  
-//   });
+        else if ( !blackList.has(URL) ) {
+            const pre = document.getElementsByTagName("pre");
+            for (let i = 0; i < pre.length; i++) {
+                let code = pre[i].textContent;
+                code = code.replace(/\u00a0/g, ' ');
+                if (code.trim().length > 25) {
+                    const button = document.createElement("button");
+                    button.classList.add("guvi-ide")
+                    button.dataset.code = code;
+                    pre[i].appendChild(button);
+                }
+            }
+        }       
+        
+        }
+  });
