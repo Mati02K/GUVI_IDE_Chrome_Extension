@@ -1,20 +1,13 @@
 'use strict';
 
-// const guessLang = new GuessLang();
-// guessLang.runModel('#include <stdio.h>\n\n\nint main() {\n    // Complete the code.\n    return 0;\n}\n').then((result) => {
-//     console.log(result);
-// });
-// let x = runModel('#include <stdio.h>\n\n\nint main() {\n    // Complete the code.\n    return 0;\n}\n');
-// console.log(typeof x);
-
 const API_PATH = 'https://guvi-api.codingpuppet.com/guvi2.0/model';
 
 const apiPath = 'extensionIDE.php';
 
 let isLanguageSet = false; // This variable is used to check if already code is present in the editor when switching languages
 
-const runCode = (code) => {
-    const cid = $('#mode option:selected').text();
+const runCode = (code, lang = null) => {
+    const cid = (lang === null) ? $('#mode option:selected').text() : lang;
     const sendDetails = {
         compilerId: cid,
         source: code,
@@ -50,51 +43,6 @@ const runCode = (code) => {
         }
         $('#compile').prop('disabled', false);
       });
-};
-
-const idetifyLang = (code) => {
-    let programmingLang = '';
-    const guessLang = new GuessLang();
-    guessLang.runModel(code).then((result) => {
-        switch (result[0].languageId) {
-            case 'bat':
-                programmingLang = 'BASH';
-                break;
-            case 'c':
-                programmingLang = 'C';
-                break;
-            case 'cpp':
-                programmingLang = 'CPP14';
-                break;
-            case 'clj':
-                programmingLang = 'CLOJURE';
-                break;
-            case 'go':
-                programmingLang = 'GO';
-                break;
-            case 'cs':
-                programmingLang = 'CS';
-                break;
-            case 'java':
-                programmingLang = 'JAVA8';
-                break;
-            case 'js':
-                programmingLang = 'JAVASCRIPT';
-                break;
-            case 'py':
-                programmingLang = 'PY3';
-                break;
-            case 'rb':
-                programmingLang = 'RUBY';
-                break;
-            case 'rs':
-                programmingLang = 'RUST';
-                break;
-            default:
-                programmingLang = 'CPP14';
-        }
-    });
-    return programmingLang;
 };
 
 const setLanguage = (langName) => {
@@ -177,21 +125,89 @@ const setLanguage = (langName) => {
     }
 };
 
+const idetifyLang = (code) => {
+    const guessLang = new GuessLang();
+    guessLang.runModel(code).then((result) => {
+        let programmingLang = 'cpp';
+        switch (result[0].languageId) {
+            case 'bat':
+                programmingLang = 'BASH';
+                $('#mode').val(programmingLang).change();
+                runCode(code, programmingLang);
+                break;
+            case 'c':
+                programmingLang = 'C';
+                $('#mode').val(programmingLang).change();
+                runCode(code, programmingLang);
+                break;
+            case 'cpp':
+                programmingLang = 'CPP14';
+                $('#mode').val(programmingLang).change();
+                runCode(code, programmingLang);
+                break;
+            case 'clj':
+                programmingLang = 'CLOJURE';
+                $('#mode').val(programmingLang).change();
+                runCode(code, programmingLang);
+                break;
+            case 'go':
+                programmingLang = 'GO';
+                $('#mode').val(programmingLang).change();
+                runCode(code, programmingLang);
+                break;
+            case 'cs':
+                programmingLang = 'CS';
+                $('#mode').val(programmingLang).change();
+                runCode(code, programmingLang);
+                break;
+            case 'java':
+                programmingLang = 'JAVA8';
+                $('#mode').val(programmingLang).change();
+                runCode(code, programmingLang);
+                break;
+            case 'js':
+                programmingLang = 'JAVASCRIPT';
+                $('#mode').val(programmingLang).change();
+                runCode(code, programmingLang);
+                break;
+            case 'py':
+                programmingLang = 'PY3';
+                $('#mode').val(programmingLang).change();
+                runCode(code, programmingLang);
+                break;
+            case 'rb':
+                programmingLang = 'RUBY';
+                $('#mode').val(programmingLang).change();
+                runCode(code, programmingLang);
+                break;
+            case 'rs':
+                programmingLang = 'RUST';
+                $('#mode').val(programmingLang).change();
+                runCode(code, programmingLang);
+                break;
+            default:
+                programmingLang = 'CPP14';
+                $('#mode').val(programmingLang).change();
+                $('#output').val('');
+        }
+    });
+};
+
 // Editor Settings
 const editor = ace.edit("editor");
 editor.setTheme("ace/theme/monokai");
 editor.setShowPrintMargin(false);
-editor.session.setMode("ace/mode/c_cpp");
 
 chrome.storage.sync.get('code', function(code) {
     if (code.code && code.code !== null && code.code !== '') {
         isLanguageSet = true;
-        // const lang = idetifyLang(code.code);
-        // setLanguage(lang);
+        $('#output').val('Compiling Your Code. Pls Wait...');
+        idetifyLang(code.code);
         editor.setValue(code.code);
         editor.clearSelection();
     }
     else {
+        editor.session.setMode("ace/mode/c_cpp");
         editor.setValue('#include <stdio.h>\n\n\nint main() {\n    // Complete the code.\n    return 0;\n}\n');
         editor.clearSelection();
     }

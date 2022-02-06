@@ -6,7 +6,7 @@ chrome.storage.sync.get('extensionStatus', function(status) {
     if(extensionStatus) {
         $(document).ready(function(){
             $('.guvi-ide').click(function() {
-                const code = $(this).data( "code" );
+                const code = $(this).data( 'code' );
                 //  Set the code in the chrome storage API
                 chrome.storage.sync.set(
                     {code : code}
@@ -28,7 +28,7 @@ chrome.storage.sync.get('extensionStatus', function(status) {
         const URL = location.protocol + '//' + location.host; 
         
         // Below websites have the codes in the different format
-        const specialWebsites = new Set(['https://www.geeksforgeeks.org', 'https://www.javatpoint.com', 'https://github.com'])
+        const specialWebsites = new Set(['https://www.geeksforgeeks.org', 'https://www.javatpoint.com', 'https://github.com']);
         
         // Render extension button layout for geekforgeek
         if ( specialWebsites.has(URL) && URL === 'https://www.geeksforgeeks.org') {
@@ -55,7 +55,7 @@ chrome.storage.sync.get('extensionStatus', function(status) {
                 let code = pre[i].childNodes[1].defaultValue;
                 code = code.replace(/\u00a0/g, ' ');
                 const button = document.createElement("button");
-                button.classList.add('guvi-ide')
+                button.classList.add('guvi-ide');
                 button.style.float = 'none';
                 button.style.marginLeft = '90%';
                 button.style.marginBottom = '15px';
@@ -77,7 +77,7 @@ chrome.storage.sync.get('extensionStatus', function(status) {
                 code += '\n';
             }
             const button = document.createElement('button');
-            button.classList.add('guvi-ide')
+            button.classList.add('guvi-ide');
             button.dataset.code = code;
             parentElement[0].appendChild(button);
         }
@@ -89,7 +89,7 @@ chrome.storage.sync.get('extensionStatus', function(status) {
                 code = code.replace(/\u00a0/g, ' ');
                 if (code.trim().length > 25) {
                     const button = document.createElement('button');
-                    button.classList.add('guvi-ide')
+                    button.classList.add('guvi-ide');
                     button.dataset.code = code;
                     pre[i].appendChild(button);
                 }
