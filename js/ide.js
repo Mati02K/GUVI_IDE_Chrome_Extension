@@ -1,3 +1,5 @@
+'use strict';
+
 // const guessLang = new GuessLang();
 // guessLang.runModel('#include <stdio.h>\n\n\nint main() {\n    // Complete the code.\n    return 0;\n}\n').then((result) => {
 //     console.log(result);
@@ -5,11 +7,11 @@
 // let x = runModel('#include <stdio.h>\n\n\nint main() {\n    // Complete the code.\n    return 0;\n}\n');
 // console.log(typeof x);
 
-const API_PATH = "https://guvi-api.codingpuppet.com/guvi2.0/model";
+const API_PATH = 'https://guvi-api.codingpuppet.com/guvi2.0/model';
 
-const apiPath = "extensionIDE.php";
+const apiPath = 'extensionIDE.php';
 
-let isLanguageSet = false;
+let isLanguageSet = false; // This variable is used to check if already code is present in the editor when switching languages
 
 const runCode = (code) => {
     const cid = $('#mode option:selected').text();
@@ -29,9 +31,24 @@ const runCode = (code) => {
       }).then((response) => {
         const output = JSON.parse(response);
         if(output.output) {
+            let status = 'Success !!!';
+            let msg = 'Your code has been successfully compiled.';
+            if (output.output === 'Maximum Time Limit Exceeded' || ! output.compilationstatus) {
+                status = 'Error !!!';
+                msg = 'There is a problem running your code.Please check the language selected.';
+            }
+            const notifOptions = {
+                type : 'basic',
+                iconUrl : '../icons/logo.png',
+                title : status,
+                message : msg,
+            };
+            chrome.notifications.create('compilationStatus',notifOptions);
             $('#output').val(output.output);
-            $('#compile').prop('disabled', false);
+        } else {
+            $('#output').val('');
         }
+        $('#compile').prop('disabled', false);
       });
 };
 
@@ -158,7 +175,6 @@ const setLanguage = (langName) => {
             editor.clearSelection();
         }
     }
-
 };
 
 // Editor Settings
@@ -169,7 +185,6 @@ editor.session.setMode("ace/mode/c_cpp");
 
 chrome.storage.sync.get('code', function(code) {
     if (code.code && code.code !== null && code.code !== '') {
-        console.log(code.code);
         isLanguageSet = true;
         // const lang = idetifyLang(code.code);
         // setLanguage(lang);
@@ -177,7 +192,7 @@ chrome.storage.sync.get('code', function(code) {
         editor.clearSelection();
     }
     else {
-        editor.setValue("#include <stdio.h>\n\n\nint main() {\n    // Complete the code.\n    return 0;\n}\n");
+        editor.setValue('#include <stdio.h>\n\n\nint main() {\n    // Complete the code.\n    return 0;\n}\n');
         editor.clearSelection();
     }
 });
@@ -191,7 +206,5 @@ $('#compile').on('click', function() {
     $('#output').val('Compiling Your Code. Pls Wait...');
     $('#compile').prop('disabled', true);
     const code = editor.getValue();
-    runCode(code);
-    // console.log(op);
-    
+    runCode(code);    
 });

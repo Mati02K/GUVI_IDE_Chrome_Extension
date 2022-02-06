@@ -1,13 +1,11 @@
+'use strict';
 
 chrome.storage.sync.get('extensionStatus', function(status) {
     let extensionStatus = status.extensionStatus;
-    console.log(extensionStatus);
     if(extensionStatus) {
-
         const openEditor = () => {
 
             const ideURL = "../html/ide.html";
-            // const ideURL = "http://127.0.0.1:5500/html/ide.html";
             const openIDE = {
                 url : ideURL,
                 type : "popup",
@@ -16,22 +14,15 @@ chrome.storage.sync.get('extensionStatus', function(status) {
                 width : 750,
                 height :550,
             };
-            chrome.storage.sync.get('code', function(code) {
-                console.log("Code from api", code.code);
-            });
-
+            
             chrome.windows.create(openIDE, function(){})
-
         };
 
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             openEditor();
-            console.log(message);  // This is the code
-
         });
 
-
-        // Setting the properties of the Context Menu Item
+        // Setting the properties of the Context Menu Item on selection of text
         const contextMenuItem = {
             id : 'guviIDE',
             title : 'Guvi IDE',
@@ -44,12 +35,12 @@ chrome.storage.sync.get('extensionStatus', function(status) {
             if (option.menuItemId === 'guviIDE' && option.selectionText) {
                 let code = option.selectionText;
                 code = code.replace(/  +/g, '\n'); // Replace empty spaces with new lines
+                code = code.replace(/\u00a0/g, ' '); // Replace &nbsp
                 chrome.storage.sync.set(
                     {code : code}
                     )
                 openEditor();
             }
         });
-
-}
+    }
 });

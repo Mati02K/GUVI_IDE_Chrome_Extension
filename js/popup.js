@@ -1,10 +1,11 @@
+'use strict';
+
 // Get the Extension Status whenever the page is loaded
 let extensionStatus = true;
 chrome.runtime.onConnect.addListener(
   {callback: chrome.storage.sync.get('extensionStatus', function(status) {
     if (status && status.extensionStatus !== null) {
       extensionStatus = status.extensionStatus;
-      console.log(extensionStatus);
     }
   })}
 )
@@ -12,7 +13,7 @@ chrome.runtime.onConnect.addListener(
 $(document).ready(function() { 
   
   if(extensionStatus) {
-    if($('#btn-bg').hasClass("active")){
+    if($('#btn-bg').hasClass('active')){
       $('#power-text strong').text('ON').css('color', '#08BC63');
     }else{
       $('#btn-bg').toggleClass('active');
@@ -20,7 +21,7 @@ $(document).ready(function() {
     }
   }
   else {
-    if($('#btn-bg').hasClass("active")){
+    if($('#btn-bg').hasClass('active')){
       $('#btn-bg').toggleClass('active');
       $('#power-text strong').text('OFF').css('color', '#000');
     }else{
@@ -45,6 +46,7 @@ $(document).ready(function() {
         )
       extensionStatus = true;
     }
+
   });
 
   $('#openide').on('click', function() {
