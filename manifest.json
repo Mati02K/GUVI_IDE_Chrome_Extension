@@ -19,8 +19,7 @@
     "content_scripts": [
         {
           "matches": ["<all_urls>"],
-          "css" : ["css/extension.css"],
-          "js": ["js/vendor/jquery-3.6.0.min.js", "js/content.js"]
+          "js": ["js/vendor/jquery-3.6.0.min.js", "js/vendor/guesslang.js", "js/content.js"]
         }
     ],
     "permissions" : [

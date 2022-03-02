@@ -3,15 +3,11 @@
 ### File Structure
 * HTML
     * Popup ---> Main entry file which appears on extension click.
-    * Ide ---> Ide page of the extension.
 * CSS
-    * Extension ---> Extension Css which will be injected by content script.
-    * Ide ---> Css for Ide.html.
     * Style ---> Css for Popup.html.
 * JS
     * Vendor ---> External library files.
     * Popup ---> JS for popup.html.
-    * Ide ---> JS for Ide.html.
     * Eventpage ---> Service Worker running in the background.
     * Content ---> Content Script which will inject the Button and get the code from the DOM on runtime.
 * Icons (All Icons)

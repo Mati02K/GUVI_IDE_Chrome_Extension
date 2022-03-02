@@ -50,18 +50,15 @@ $(document).ready(function() {
   });
 
   $('#openide').on('click', function() {
-    const ideURL = '../html/ide.html';
+    const ideURL = 'http://localhost:8000/ide.html';
     const openIDE = {
         url : ideURL,
-        type : "popup",
+        type : 'popup',
         top : 5,
         left : 5,
         width : 750,
-        height :550,
+        height :750,
     };
-    chrome.storage.sync.set(
-      {code : ''}
-      )
 
     chrome.windows.create(openIDE, function(){})
   });
