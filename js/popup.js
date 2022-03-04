@@ -36,14 +36,14 @@ $(document).ready(function() {
       $('#power-text strong').text('OFF').css('color', '#000');
       chrome.storage.sync.set(
         {extensionStatus : false}
-        )
+      );
       extensionStatus = false;
     }else{
       $('#btn-bg').toggleClass('active');
       $('#power-text strong').text('ON').css('color', '#08BC63');
       chrome.storage.sync.set(
         {extensionStatus : true}
-        )
+      );
       extensionStatus = true;
     }
 
@@ -60,6 +60,6 @@ $(document).ready(function() {
         height :750,
     };
 
-    chrome.windows.create(openIDE, function(){})
+    chrome.windows.create(openIDE);
   });
 });

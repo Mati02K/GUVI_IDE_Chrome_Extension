@@ -1,8 +1,9 @@
 'use strict';
 
 // Check Extension On/OFF Status
+
 chrome.storage.sync.get('extensionStatus', function(status) {
-    let extensionStatus = status.extensionStatus;
+    const extensionStatus = status.extensionStatus;
     if(extensionStatus) {
 
         const API_PATH = 'https://guvi-api.codingpuppet.com/guvi2.0/model';
@@ -34,9 +35,14 @@ chrome.storage.sync.get('extensionStatus', function(status) {
                 let id = null;
                 if (output.status === 'success') {
                     id = output.uniqueId;
+                    window.open(
+                        `http://localhost:8000/ide.html?id=${id}`,
+                        'GUVI IDE',
+                        'left=5,top=5,width=750,height=750,popup'
+                    );
                 }
 
-                // Send the Id to Service Worker
+                // Send the Id to Service Worker            
                 chrome.runtime.sendMessage(output, (response) => {
                     console.log('Sending Your Code');
                     console.log(response);
